@@ -122,9 +122,4 @@ resource "aws_amplify_webhook" "default" {
   app_id      = one(aws_amplify_app.default[*].id)
   branch_name = aws_amplify_branch.default[lookup(each.value, "branch_name", each.key)].branch_name
   description = format("trigger-%s", aws_amplify_branch.default[lookup(each.value, "branch_name", each.key)].branch_name)
-
-  # NOTE: We trigger the webhook via local-exec so as to kick off the first build on creation of Amplify App
-  provisioner "local-exec" {
-    command = "curl -X POST -d {} '${aws_amplify_webhook.default[each.key].url}&operation=startbuild' -H 'Content-Type:application/json'"
-  }
 }
