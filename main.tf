@@ -58,6 +58,12 @@ resource "aws_amplify_app" "default" {
   }
 
   tags = module.this.tags
+
+  lifecycle {
+    ignore_changes = [
+      auto_branch_creation_patterns,
+    ]
+  }
 }
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/amplify_backend_environment
